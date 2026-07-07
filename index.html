@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhavyashree | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple-deep: #2D0A4E;
+    --purple-mid: #5B1F8A;
+    --lavender: #B89FD8;
+    --lavender-light: #E8DEFF;
+    --lavender-pale: #F5F0FF;
+    --gold: #C9A84C;
+    --gold-light: #E8D48B;
+    --white: #FDFAFF;
+    --text-dark: #1A0530;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    background: #0D0020;
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== FLOATING PETALS (global) ===== */
+  .petal-float {
+    position: fixed; pointer-events: none; z-index: 0;
+    font-size: 1.4rem; opacity: 0.15;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.18; }
+    90%  { opacity: 0.12; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(45,10,78,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    display: flex; justify-content: center; gap: 2rem;
+    padding: 1rem 2rem;
+  }
+  nav a {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    color: var(--lavender); text-decoration: none;
+    transition: color 0.3s;
+  }
+  nav a:hover { color: var(--gold-light); }
+
+  /* ===== PAGES ===== */
+  .page {
+    min-height: 100vh; position: relative;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 6rem 2rem 4rem;
+    overflow: hidden;
+  }
+
+  /* Dual gradient bg for every page */
+  .page::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(135deg,
+      var(--purple-deep) 0%,
+      var(--purple-mid) 40%,
+      #7B3FAD 60%,
+      #C0A0E8 85%,
+      var(--lavender-light) 100%);
+  }
+  .page:nth-child(even)::before {
+    background: linear-gradient(135deg,
+      #1A0040 0%,
+      #4A1580 35%,
+      #8B5CC0 60%,
+      var(--lavender) 80%,
+      #D4BFFF 100%);
+  }
+
+  /* ===== FLORAL CORNER DECOR ===== */
+  .floral-tl, .floral-tr, .floral-bl, .floral-br {
+    position: absolute; z-index: 1;
+    font-size: 4rem; opacity: 0.18; pointer-events: none;
+    line-height: 1;
+  }
+  .floral-tl { top: 1.5rem; left: 1.5rem; transform: rotate(-15deg); }
+  .floral-tr { top: 1.5rem; right: 1.5rem; transform: rotate(15deg); }
+  .floral-bl { bottom: 1.5rem; left: 1.5rem; transform: rotate(15deg); }
+  .floral-br { bottom: 1.5rem; right: 1.5rem; transform: rotate(-15deg); }
+
+  .content { position: relative; z-index: 2; width: 100%; max-width: 860px; }
+
+  /* ===== GOLD DIVIDER ===== */
+  .divider {
+    display: flex; align-items: center; gap: 1rem; margin: 1.5rem auto;
+    width: fit-content;
+  }
+  .divider-line { width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .divider-icon { color: var(--gold); font-size: 1rem; }
+
+  /* ===== PAGE 1 – ABOUT ===== */
+  .hero-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--lavender-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-align: center; line-height: 1.2;
+    text-shadow: none;
+    letter-spacing: 0.05em;
+    animation: shimmer 4s ease-in-out infinite alternate;
+  }
+  @keyframes shimmer {
+    0%  { filter: brightness(1); }
+    100%{ filter: brightness(1.25); }
+  }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.4rem;
+    color: var(--lavender-light); text-align: center;
+    margin: 0.6rem 0;
+    letter-spacing: 0.08em;
+  }
+
+  .lion-badge {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.2), rgba(45,10,78,0.6));
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; margin: 1.5rem auto;
+    box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%,100%{ box-shadow: 0 0 20px rgba(201,168,76,0.3); }
+    50%    { box-shadow: 0 0 50px rgba(201,168,76,0.6); }
+  }
+
+  .info-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem; margin: 2rem 0;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 16px;
+    padding: 1.4rem 1.2rem;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .info-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+  }
+  .info-card .ic-label {
+    font-size: 0.65rem; letter-spacing: 0.18em;
+    color: var(--lavender); text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .info-card .ic-value {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.5rem; color: var(--gold-light); font-weight: 700;
+  }
+  .info-card .ic-sub {
+    font-size: 0.75rem; color: var(--lavender-light); margin-top: 0.3rem;
+  }
+
+  .about-para {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; line-height: 1.9;
+    color: var(--lavender-light);
+    text-align: center;
+    max-width: 680px; margin: 1rem auto;
+  }
+
+  /* ===== PAGE 2 – ACHIEVEMENTS ===== */
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 4vw, 2.8rem);
+    background: linear-gradient(135deg, var(--gold), var(--lavender-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-align: center; letter-spacing: 0.06em;
+  }
+
+  .achievement-cards {
+    display: flex; flex-direction: column; gap: 1.4rem; margin: 2rem 0;
+  }
+  .ach-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(184,159,216,0.3);
+    border-left: 4px solid var(--gold);
+    border-radius: 12px;
+    padding: 1.5rem 1.8rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s;
+  }
+  .ach-card:hover { transform: translateX(6px); }
+  .ach-icon { font-size: 2.5rem; flex-shrink: 0; }
+  .ach-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.9rem; color: var(--gold-light);
+    letter-spacing: 0.05em; margin-bottom: 0.4rem;
+  }
+  .ach-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; color: var(--lavender-light); line-height: 1.6;
+  }
+
+  /* ===== PAGE 3 – SKILLS ===== */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+    gap: 1.2rem; margin: 2rem 0;
+  }
+  .skill-pill {
+    background: rgba(91,31,138,0.35);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600; font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--lavender-light);
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .skill-pill:hover {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold-light);
+    transform: scale(1.06);
+  }
+  .skill-pill .sp-icon { display: block; font-size: 1.6rem; margin-bottom: 0.4rem; }
+
+  .dream-banner {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(91,31,138,0.4));
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .dream-banner p {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(0.85rem, 2vw, 1.2rem);
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+  }
+  .dream-banner span { color: var(--lavender-light); font-family: 'Cormorant Garamond', serif; font-size: 1.1em; }
+
+  /* ===== PAGE 4 – CONTACT ===== */
+  .contact-list {
+    display: flex; flex-direction: column; gap: 1.2rem;
+    margin: 2rem 0;
+  }
+  .contact-row {
+    display: flex; align-items: center; gap: 1.2rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(184,159,216,0.25);
+    border-radius: 14px;
+    padding: 1.2rem 1.6rem;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s;
+  }
+  .contact-row:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    transform: scale(1.02);
+  }
+  .contact-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .contact-label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--lavender); text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .contact-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* ===== PAGE 5 – CREATIVE ===== */
+  .ode-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    font-style: italic; line-height: 2.1;
+    color: var(--lavender-light);
+    text-align: center;
+    max-width: 700px; margin: 0 auto;
+  }
+  .ode-text strong {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--gold), var(--lavender-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.15em;
+  }
+
+  .traits-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem;
+    margin: 2rem 0;
+  }
+  .trait-tag {
+    background: rgba(184,159,216,0.15);
+    border: 1px solid var(--lavender);
+    border-radius: 50px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.8rem; letter-spacing: 0.12em;
+    color: var(--lavender-light);
+    font-family: 'Raleway', sans-serif; font-weight: 500;
+  }
+
+  .closing-quote {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    text-align: center;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-top: 2rem;
+    opacity: 0.9;
+  }
+
+  /* ===== FLOWER SVG STRIPS ===== */
+  .flower-strip {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 60px; z-index: 1;
+    display: flex; align-items: flex-end;
+    justify-content: space-around;
+    font-size: 2rem; padding-bottom: 6px;
+    opacity: 0.25; pointer-events: none;
+    letter-spacing: 0.5rem;
+  }
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    z-index: 2; text-align: center; color: var(--lavender);
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-hint::after { content: '\A↓'; white-space: pre; display: block; font-size: 1.2rem; }
+  @keyframes bounce {
+    0%,100%{ transform: translateX(-50%) translateY(0); }
+    50%    { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ===== PAGE LABEL ===== */
+  .page-num {
+    position: absolute; top: 5.5rem; right: 2rem; z-index: 3;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.55rem; letter-spacing: 0.25em;
+    color: rgba(201,168,76,0.5);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div class="petal-float" style="left:8%;animation-duration:12s;animation-delay:0s;">🌸</div>
+<div class="petal-float" style="left:22%;animation-duration:15s;animation-delay:3s;">🌺</div>
+<div class="petal-float" style="left:40%;animation-duration:10s;animation-delay:1.5s;">🌷</div>
+<div class="petal-float" style="left:58%;animation-duration:13s;animation-delay:4s;">🌸</div>
+<div class="petal-float" style="left:75%;animation-duration:11s;animation-delay:2s;">🌹</div>
+<div class="petal-float" style="left:90%;animation-duration:16s;animation-delay:5s;">🌺</div>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <a href="#p1">About</a>
+  <a href="#p2">Achievements</a>
+  <a href="#p3">Skills</a>
+  <a href="#p4">Connect</a>
+  <a href="#p5">My Story</a>
+</nav>
+
+<!-- ============================================================ -->
+<!-- PAGE 1 – ABOUT ME -->
+<!-- ============================================================ -->
+<section class="page" id="p1">
+  <div class="floral-tl">🌸</div>
+  <div class="floral-tr">🌺</div>
+  <div class="floral-bl">🌷</div>
+  <div class="floral-br">🌹</div>
+  <span class="page-num">01 / 05 &nbsp;·&nbsp; About</span>
+
+  <div class="content" style="text-align:center;">
+    <div class="lion-badge">🦁</div>
+
+    <h1 class="hero-name">Bhavyashree</h1>
+    <p class="hero-tagline">Creator · Dreamer · Future Developer</p>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-icon">🌸</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="ic-label">12th Standard</div>
+        <div class="ic-value">469</div>
+        <div class="ic-sub">Marks Scored</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-label">10th Standard</div>
+        <div class="ic-value">427</div>
+        <div class="ic-sub">Marks Scored</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-label">College</div>
+        <div class="ic-value" style="font-size:0.85rem;line-height:1.3;">RD National</div>
+        <div class="ic-sub">College of Arts & Science</div>
+      </div>
+    </div>
+
+    <p class="about-para">
+      I am Bhavyashree — a passionate soul who finds beauty in both art and technology.
+      Drawing and painting are my creative heartbeats, while the world of tech fuels my ambition.
+      I believe in painting my future as boldly as I paint my canvases.
+      <br><br>
+      Currently pursuing my journey at <strong style="-webkit-text-fill-color:var(--gold-light);">RD National College of Arts & Science</strong>,
+      where creativity meets knowledge.
+    </p>
+  </div>
+
+  <div class="flower-strip">🌸🌺🌷🌹🌸🌺🌷🌹🌸🌺🌷</div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PAGE 2 – ACHIEVEMENTS -->
+<!-- ============================================================ -->
+<section class="page" id="p2">
+  <div class="floral-tl">🌺</div>
+  <div class="floral-tr">🌷</div>
+  <div class="floral-bl">🌹</div>
+  <div class="floral-br">🌸</div>
+  <span class="page-num">02 / 05 &nbsp;·&nbsp; Achievements</span>
+
+  <div class="content">
+    <h2 class="section-title">Crowns I Have Earned</h2>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-icon">🏅</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <div class="achievement-cards">
+      <div class="ach-card">
+        <span class="ach-icon">📜</span>
+        <div>
+          <div class="ach-title">Letter of Recognition</div>
+          <div class="ach-desc">
+            Received a formal Letter Pad — an official recognition of excellence,
+            acknowledging my dedication and contribution in my academic journey.
+          </div>
+        </div>
+      </div>
+
+      <div class="ach-card">
+        <span class="ach-icon">🥉</span>
+        <div>
+          <div class="ach-title">Bronze Medal</div>
+          <div class="ach-desc">
+            Proudly earned a Bronze Medal — a shining testament to my hard work,
+            perseverance, and competitive spirit. Every medal tells a story of effort.
+          </div>
+        </div>
+      </div>
+
+      <div class="ach-card">
+        <span class="ach-icon">🎨</span>
+        <div>
+          <div class="ach-title">Art & Painting</div>
+          <div class="ach-desc">
+            Gifted in drawing and painting — translating imagination onto canvas with
+            colours, strokes, and stories that speak without words.
+          </div>
+        </div>
+      </div>
+
+      <div class="ach-card">
+        <span class="ach-icon">🌸</span>
+        <div>
+          <div class="ach-title">Passion Meets Purpose</div>
+          <div class="ach-desc">
+            Deeply interested in technology and innovation, bridging the gap between
+            creative arts and the digital world — a rare and powerful combination.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flower-strip">🌷🌹🌸🌺🌷🌹🌸🌺🌷🌹🌸</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PAGE 3 – SKILLS & ASPIRATION -->
+<!-- ============================================================ -->
+<section class="page" id="p3">
+  <div class="floral-tl">🌷</div>
+  <div class="floral-tr">🌹</div>
+  <div class="floral-bl">🌸</div>
+  <div class="floral-br">🌺</div>
+  <span class="page-num">03 / 05 &nbsp;·&nbsp; Skills</span>
+
+  <div class="content">
+    <h2 class="section-title">Skills & Aspirations</h2>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-icon">💻</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-pill"><span class="sp-icon">🎨</span>Drawing & Painting</div>
+      <div class="skill-pill"><span class="sp-icon">💻</span>Developer Skills</div>
+      <div class="skill-pill"><span class="sp-icon">⚡</span>Shyket Framework</div>
+      <div class="skill-pill"><span class="sp-icon">🌐</span>Tech Enthusiast</div>
+      <div class="skill-pill"><span class="sp-icon">🧠</span>Creative Thinking</div>
+      <div class="skill-pill"><span class="sp-icon">📱</span>Digital Innovation</div>
+      <div class="skill-pill"><span class="sp-icon">🔬</span>Problem Solving</div>
+      <div class="skill-pill"><span class="sp-icon">🌸</span>Art & Design</div>
+    </div>
+
+    <div class="dream-banner">
+      <p>
+        ⚔️ &nbsp; <span>I am on a mission to become a skilled developer</span>
+        <br><br>
+        Currently sharpening my craft in <strong>Shyket</strong> — a journey of a thousand lines of code
+        begins with a single keystroke.
+        <br><br>
+        My ultimate aspiration: to join the <strong>House Lannister</strong> of the tech world —
+        <span>powerful, brilliant, and unstoppable.</span>
+        <br><br>
+        🦁 &nbsp; <em>"A Lannister always delivers their code."</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="flower-strip">🌹🌸🌺🌷🌹🌸🌺🌷🌹🌸🌺</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PAGE 4 – CONTACT -->
+<!-- ============================================================ -->
+<section class="page" id="p4">
+  <div class="floral-tl">🌹</div>
+  <div class="floral-tr">🌸</div>
+  <div class="floral-bl">🌺</div>
+  <div class="floral-br">🌷</div>
+  <span class="page-num">04 / 05 &nbsp;·&nbsp; Connect</span>
+
+  <div class="content">
+    <h2 class="section-title">Let's Connect</h2>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-icon">🌸</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--lavender-light);text-align:center;margin-bottom:1.5rem;font-style:italic;">
+      Every great collaboration begins with a simple hello.
+      Reach out — let's build something beautiful together.
+    </p>
+
+    <div class="contact-list">
+      <div class="contact-row">
+        <span class="contact-icon">📞</span>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">+91 98946 08019</div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <span class="contact-icon">📸</span>
+        <div>
+          <div class="contact-label">Instagram</div>
+          <div class="contact-value">@_magical_soul_7</div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <span class="contact-icon">📧</span>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">b20347809@gmail.com</div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <span class="contact-icon">💼</span>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">Bhavyashree — Find me on LinkedIn</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flower-strip">🌺🌷🌹🌸🌺🌷🌹🌸🌺🌷🌹</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PAGE 5 – CREATIVE / MY STORY -->
+<!-- ============================================================ -->
+<section class="page" id="p5">
+  <div class="floral-tl">🌸</div>
+  <div class="floral-tr">🌺</div>
+  <div class="floral-bl">🌹</div>
+  <div class="floral-br">🌷</div>
+  <span class="page-num">05 / 05 &nbsp;·&nbsp; My Story</span>
+
+  <div class="content" style="text-align:center;">
+    <h2 class="section-title">The Garden of Bhavyashree</h2>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-icon">🌷</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <p class="ode-text">
+      Like a flower that blooms in two worlds at once —<br>
+      roots dipped in <strong>colour and canvas</strong>,<br>
+      petals reaching toward <strong>code and circuits</strong>.<br>
+      <br>
+      She is <strong>Bhavyashree</strong> —<br>
+      the girl who paints her dreams<br>
+      and then writes them into reality.<br>
+      <br>
+      Born with a brush in one hand<br>
+      and a keyboard in the other,<br>
+      she walks the path where<br>
+      <strong>art meets algorithm</strong>,<br>
+      where <em>creativity meets craft</em>.<br>
+      <br>
+      Her medals are not just bronze —<br>
+      they are the first chapters<br>
+      of a story <strong>still being written</strong>.<br>
+      <br>
+      Every line of code she learns<br>
+      is a new brushstroke.<br>
+      Every bug she fixes<br>
+      is a canvas she perfects.<br>
+      <br>
+      🦁 &nbsp;She does not just dream of joining the great houses —<br>
+      <strong>She is building her own.</strong>
+    </p>
+
+    <div class="traits-row">
+      <span class="trait-tag">🎨 Artist</span>
+      <span class="trait-tag">💻 Developer</span>
+      <span class="trait-tag">🌸 Creative</span>
+      <span class="trait-tag">🏅 Achiever</span>
+      <span class="trait-tag">🦁 Ambitious</span>
+      <span class="trait-tag">⚡ Tech Lover</span>
+      <span class="trait-tag">✨ Dreamer</span>
+      <span class="trait-tag">🌷 Magical Soul</span>
+    </div>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-icon">🌹</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <p class="closing-quote">
+      "In a world of thorns,<br>be the rose that codes."
+    </p>
+
+    <p style="margin-top:2rem;font-size:0.65rem;letter-spacing:0.25em;color:rgba(184,159,216,0.5);text-transform:uppercase;">
+      © 2026 Bhavyashree &nbsp;·&nbsp; All Rights Reserved &nbsp;🌸
+    </p>
+  </div>
+
+  <div class="flower-strip">🌸🌹🌺🌷🌸🌹🌺🌷🌸🌹🌺</div>
+</section>
+
+</body>
+</html>
